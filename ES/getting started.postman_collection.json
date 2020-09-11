@@ -1,0 +1,552 @@
+{
+	"info": {
+		"_postman_id": "a357328f-6721-432d-82e2-1cbaae1777e2",
+		"name": "getting started",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mapping get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://10.21.25.33:9200/ai_topqual_song_search_v1/_mapping?pretty",
+					"protocol": "http",
+					"host": [
+						"10",
+						"21",
+						"25",
+						"33"
+					],
+					"port": "9200",
+					"path": [
+						"ai_topqual_song_search_v1",
+						"_mapping"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				},
+				"description": "get mapping"
+			},
+			"response": []
+		},
+		{
+			"name": "别名零停机",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"actions\": [\r\n        { \"remove\": { \"index\": \"musicsearch_fm_v1.0\", \"alias\": \"musicsearch_fm\" }},\r\n        { \"add\":    { \"index\": \"musicsearch_fm_v1.1\", \"alias\": \"musicsearch_fm\" }}\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://10.101.8.193:11501/_aliases",
+					"protocol": "http",
+					"host": [
+						"10",
+						"101",
+						"8",
+						"193"
+					],
+					"port": "11501",
+					"path": [
+						"_aliases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查看indices",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "10.101.39.218:11501/_cat/indices?v",
+					"host": [
+						"10",
+						"101",
+						"39",
+						"218"
+					],
+					"port": "11501",
+					"path": [
+						"_cat",
+						"indices"
+					],
+					"query": [
+						{
+							"key": "v",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "172.25.69.165:9200/my_temp_index?pretty",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"settings\": {\r\n        \"number_of_shards\" :   1,\r\n        \"number_of_replicas\" : 0\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "172.25.69.165:9200/my_temp_index?pretty",
+					"host": [
+						"172",
+						"25",
+						"69",
+						"165"
+					],
+					"port": "9200",
+					"path": [
+						"my_temp_index"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "删除index",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n  \"analyzer\":\"stconvert\",\r\n  \"text\":\"艾泽拉斯国家地理\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "172.25.69.165:9200/my_temp_index?pretty",
+					"host": [
+						"172",
+						"25",
+						"69",
+						"165"
+					],
+					"port": "9200",
+					"path": [
+						"my_temp_index"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "创建index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"settings\": {\r\n    \"index\": {\r\n      \"number_of_shards\": \"5\",\r\n      \"number_of_replicas\": \"1\"\r\n    }\r\n  },\r\n  \"mappings\": {\r\n    \"music_top_song_vivo\": {\r\n      \"properties\": {\r\n        \"songName\": {\r\n          \"fielddata\": true,\r\n          \"analyzer\": \"ik_smart\",\r\n          \"type\": \"text\",\r\n          \"fields\": {\r\n            \"primitive\": {\r\n              \"type\": \"keyword\"\r\n            }\r\n          }\r\n        },\r\n        \"albumName\": {\r\n          \"fielddata\": true,\r\n          \"analyzer\": \"ik_smart\",\r\n          \"type\": \"text\"\r\n        },\r\n        \"combineMultiValue\": {\r\n          \"fielddata\": true,\r\n          \"analyzer\": \"ik_max_word\",\r\n          \"type\": \"text\",\r\n          \"fields\": {\r\n            \"primitive\": {\r\n              \"type\": \"keyword\"\r\n            }\r\n          }\r\n        },\r\n        \"smallImage\": {\r\n          \"type\": \"keyword\"\r\n        },\r\n        \"songAndSingerName\": {\r\n          \"fielddata\": true,\r\n          \"analyzer\": \"ik_smart\",\r\n          \"type\": \"text\",\r\n          \"fields\": {\r\n            \"primitive\": {\r\n              \"type\": \"keyword\"\r\n            }\r\n          }\r\n        },\r\n        \"docId\": {\r\n          \"type\": \"long\"\r\n        },\r\n        \"albumId\": {\r\n          \"store\": true,\r\n          \"type\": \"long\"\r\n        },\r\n        \"genreList\": {\r\n          \"type\": \"keyword\"\r\n        },\r\n        \"source\": {\r\n          \"type\": \"integer\"\r\n        },\r\n        \"hot\": {\r\n          \"type\": \"integer\"\r\n        },\r\n        \"singerTranslateName\": {\r\n          \"analyzer\": \"ik_smart\",\r\n          \"type\": \"text\",\r\n          \"fields\": {\r\n            \"primitive\": {\r\n              \"type\": \"keyword\"\r\n            }\r\n          }\r\n        },\r\n        \"likeNum\": {\r\n          \"type\": \"long\"\r\n        },\r\n        \"duration\": {\r\n          \"type\": \"long\"\r\n        },\r\n        \"singerName\": {\r\n          \"fielddata\": true,\r\n          \"analyzer\": \"ik_smart\",\r\n          \"store\": true,\r\n          \"type\": \"text\",\r\n          \"fields\": {\r\n            \"primitive\": {\r\n              \"type\": \"keyword\"\r\n            }\r\n          }\r\n        },\r\n        \"singerId\": {\r\n          \"store\": true,\r\n          \"type\": \"long\"\r\n        },\r\n        \"genre\": {\r\n          \"type\": \"keyword\"\r\n        },\r\n        \"singerNameLowerCase\": {\r\n          \"fielddata\": true,\r\n          \"analyzer\": \"ik_smart\",\r\n          \"type\": \"text\",\r\n          \"fields\": {\r\n            \"primitive\": {\r\n              \"type\": \"keyword\"\r\n            }\r\n          }\r\n        },\r\n        \"id\": {\r\n          \"store\": true,\r\n          \"type\": \"long\"\r\n        },\r\n        \"albumNameLowerCase\": {\r\n          \"type\": \"keyword\"\r\n        },\r\n        \"dgitalAlbum\": {\r\n          \"type\": \"boolean\"\r\n        },\r\n        \"sqSize\": {\r\n          \"type\": \"integer\"\r\n        },\r\n        \"listenNum\": {\r\n          \"type\": \"long\"\r\n        },\r\n        \"thirdId\": {\r\n          \"type\": \"keyword\"\r\n        },\r\n        \"albumTranslateName\": {\r\n          \"analyzer\": \"ik_smart\",\r\n          \"type\": \"text\"\r\n        },\r\n        \"blackStatus\": {\r\n          \"type\": \"integer\"\r\n        },\r\n        \"translateName\": {\r\n          \"analyzer\": \"ik_smart\",\r\n          \"type\": \"text\"\r\n        },\r\n        \"songNameLowerCase\": {\r\n          \"fielddata\": true,\r\n          \"analyzer\": \"ik_smart\",\r\n          \"type\": \"text\",\r\n          \"fields\": {\r\n            \"primitive\": {\r\n              \"type\": \"keyword\"\r\n            }\r\n          }\r\n        },\r\n        \"quality\": {\r\n          \"type\": \"keyword\"\r\n        },\r\n        \"tags\": {\r\n          \"fielddata\": true,\r\n          \"analyzer\": \"ik_smart\",\r\n          \"type\": \"text\",\r\n          \"fields\": {\r\n            \"primitive\": {\r\n              \"type\": \"keyword\"\r\n            }\r\n          }\r\n        },\r\n        \"albumSmallImage\": {\r\n          \"type\": \"keyword\"\r\n        },\r\n        \"lyric\": {\r\n          \"type\": \"text\",\r\n          \"fields\": {\r\n            \"keyword\": {\r\n              \"ignore_above\": 256,\r\n              \"type\": \"keyword\"\r\n            }\r\n          }\r\n        },\r\n        \"recentListenNum\": {\r\n          \"type\": \"long\"\r\n        },\r\n        \"subtitle\": {\r\n          \"analyzer\": \"ik_smart\",\r\n          \"type\": \"text\",\r\n          \"fields\": {\r\n            \"primitive\": {\r\n              \"type\": \"keyword\"\r\n            }\r\n          }\r\n        },\r\n        \"tenListenNum\": {\r\n          \"type\": \"integer\"\r\n        },\r\n        \"singerHot\": {\r\n          \"type\": \"long\"\r\n        },\r\n        \"status\": {\r\n          \"type\": \"integer\"\r\n        }\r\n      }\r\n    }\r\n  }\r\n \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "172.25.69.165:9200/musicsearch_top_song_v1.0?pretty",
+					"host": [
+						"172",
+						"25",
+						"69",
+						"165"
+					],
+					"port": "9200",
+					"path": [
+						"musicsearch_top_song_v1.0"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				},
+				"description": "172.25.69.165:9200/my_temp_index?pretty"
+			},
+			"response": []
+		},
+		{
+			"name": "新建别名",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"actions\" : [\r\n        { \"add\" : { \"index\" : \"musicsearch_video_v1.0\", \"alias\" : \"musicsearch_video\" } }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://10.101.8.193:11501/_aliases",
+					"protocol": "http",
+					"host": [
+						"10",
+						"101",
+						"8",
+						"193"
+					],
+					"port": "11501",
+					"path": [
+						"_aliases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "测试analyzer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"刘德华刘德华\",\n    \"analyzer\": \"trigrams\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://10.101.8.193:11501/musicsearch_album_v1.0/_analyze?pretty",
+					"protocol": "http",
+					"host": [
+						"10",
+						"101",
+						"8",
+						"193"
+					],
+					"port": "11501",
+					"path": [
+						"musicsearch_album_v1.0",
+						"_analyze"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "新建musicsearch_album_v1.0",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"index\": {\n      \"number_of_shards\": \"5\",\n      \"number_of_replicas\": \"2\"\n    },\n    \"analysis\": {\n      \"filter\": {\n        \"trigrams_filter\": {\n          \"type\": \"ngram\",\n          \"min_gram\": 1,\n          \"max_gram\": 3\n        }\n      },\n      \"analyzer\": {\n        \"trigrams\": {\n          \"type\": \"custom\",\n          \"tokenizer\": \"ik_smart\",\n          \"filter\": [\n            \"stemmer\",\n            \"trigrams_filter\"\n          ]\n        }\n      }\n    }\n  },\n  \"mappings\": {\n    \"music_album_vivo\": {\n      \"properties\": {\n        \"songName\": {\n          \"fielddata\": true,\n          \"analyzer\": \"ik_smart\",\n          \"type\": \"text\",\n          \"fields\": {\n            \"primitive\": {\n              \"type\": \"keyword\"\n            }\n          }\n        },\n        \"albumName\": {\n          \"fielddata\": true,\n          \"analyzer\": \"ik_smart\",\n          \"type\": \"text\",\n          \"fields\": {\n            \"primitive\": {\n              \"type\": \"keyword\"\n            }\n          }\n        },\n        \"combineMultiValue\": {\n          \"type\": \"text\",\n          \"fields\": {\n            \"keyword\": {\n              \"ignore_above\": 256,\n              \"type\": \"keyword\"\n            }\n          }\n        },\n        \"smallImage\": {\n          \"type\": \"keyword\"\n        },\n        \"docId\": {\n          \"type\": \"long\"\n        },\n        \"genreList\": {\n          \"analyzer\": \"ik_smart\",\n          \"type\": \"text\",\n          \"fields\": {\n            \"primitive\": {\n              \"type\": \"keyword\"\n            }\n          }\n        },\n        \"language\": {\n          \"type\": \"keyword\"\n        },\n        \"source\": {\n          \"type\": \"integer\"\n        },\n        \"hot\": {\n          \"type\": \"long\"\n        },\n        \"singerTranslateName\": {\n          \"type\": \"text\",\n          \"fields\": {\n            \"keyword\": {\n              \"ignore_above\": 256,\n              \"type\": \"keyword\"\n            }\n          }\n        },\n        \"likeNum\": {\n          \"type\": \"long\"\n        },\n        \"singerName\": {\n          \"fielddata\": true,\n          \"analyzer\": \"ik_smart\",\n          \"store\": true,\n          \"type\": \"text\",\n          \"fields\": {\n            \"primitive\": {\n              \"type\": \"keyword\"\n            }\n          }\n        },\n        \"singerId\": {\n          \"store\": true,\n          \"type\": \"long\"\n        },\n        \"price\": {\n          \"type\": \"integer\"\n        },\n        \"releaseType\": {\n          \"type\": \"keyword\"\n        },\n        \"genre\": {\n          \"type\": \"keyword\"\n        },\n        \"company\": {\n          \"type\": \"keyword\"\n        },\n        \"singerNameLowerCase\": {\n          \"fielddata\": true,\n          \"analyzer\": \"ik_smart\",\n          \"type\": \"text\",\n          \"fields\": {\n            \"primitive\": {\n              \"type\": \"keyword\"\n            }\n          }\n        },\n        \"id\": {\n          \"store\": true,\n          \"type\": \"long\"\n        },\n        \"albumNameLowerCase\": {\n          \"analyzer\": \"ik_smart\",\n          \"type\": \"text\",\n          \"fields\": {\n            \"primitive\": {\n              \"type\": \"keyword\"\n            }\n          }\n        },\n        \"dgitalAlbum\": {\n          \"type\": \"boolean\"\n        },\n        \"publishTime\": {\n          \"format\": \"yyyy-MM-dd\",\n          \"type\": \"date\"\n        },\n        \"listenNum\": {\n          \"type\": \"long\"\n        },\n        \"songNum\": {\n          \"type\": \"long\"\n        },\n        \"thirdId\": {\n          \"type\": \"keyword\"\n        },\n        \"blackStatus\": {\n          \"type\": \"integer\"\n        },\n        \"tags\": {\n          \"type\": \"text\",\n          \"fields\": {\n            \"keyword\": {\n              \"ignore_above\": 256,\n              \"type\": \"keyword\"\n            }\n          }\n        },\n        \"recentListenNum\": {\n          \"type\": \"long\"\n        },\n        \"tenListenNum\": {\n          \"type\": \"integer\"\n        },\n        \"singerHot\": {\n          \"type\": \"long\"\n        },\n        \"status\": {\n          \"type\": \"integer\"\n        }\n      }\n    }\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "10.101.8.193:11501/musicsearch_album_v1.0",
+					"host": [
+						"10",
+						"101",
+						"8",
+						"193"
+					],
+					"port": "11501",
+					"path": [
+						"musicsearch_album_v1.0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "索引一个文档",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"f1\" : \"2\",\r\n    \"f2\" : \"two\",\r\n    \"f3\":\"200\",\r\n    \"f4\":\"2000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://10.101.39.218:11501/test/_doc/2?pretty",
+					"protocol": "http",
+					"host": [
+						"10",
+						"101",
+						"39",
+						"218"
+					],
+					"port": "11501",
+					"path": [
+						"test",
+						"_doc",
+						"2"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				},
+				"description": "http://10.101.39.218:11501/test/_doc/2?pretty"
+			},
+			"response": []
+		},
+		{
+			"name": "获取所有文档",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"match_all\": {}\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://10.101.39.218:11501/test/_search?pretty",
+					"protocol": "http",
+					"host": [
+						"10",
+						"101",
+						"39",
+						"218"
+					],
+					"port": "11501",
+					"path": [
+						"test",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				},
+				"description": "http://10.101.39.218:11501/test/_search?pretty"
+			},
+			"response": []
+		},
+		{
+			"name": "创建索引",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"mappings\": {\r\n    \"_doc\": { \r\n      \"properties\": {\r\n        \"f1\": {  \"type\": \"integer\" },\r\n        \"f2\": {  \"type\": \"text\" },\r\n        \"f3\": {  \"type\": \"long\" },\r\n        \"f4\": {  \"type\": \"integer\" },\r\n        \"f5\": {  \"type\": \"integer\" }\r\n        \r\n      }\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://10.101.39.218:11501/test",
+					"protocol": "http",
+					"host": [
+						"10",
+						"101",
+						"39",
+						"218"
+					],
+					"port": "11501",
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查看指定index的mapping",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "10.101.39.218:11501/test/_mapping?pretty",
+					"host": [
+						"10",
+						"101",
+						"39",
+						"218"
+					],
+					"port": "11501",
+					"path": [
+						"test",
+						"_mapping"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				},
+				"description": "10.101.39.218:11501/test/_mapping?pretty"
+			},
+			"response": []
+		},
+		{
+			"name": "测试analyzer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"analyzer\": \"standard\",\r\n    \"text\" : \"Mastering Elasticsearch , elasticsearch in Action\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "10.101.39.218:11501/_analyze?pretty",
+					"host": [
+						"10",
+						"101",
+						"39",
+						"218"
+					],
+					"port": "11501",
+					"path": [
+						"_analyze"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				},
+				"description": "10.101.39.218:11501/_analyze?pretty"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
