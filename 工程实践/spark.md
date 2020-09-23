@@ -199,3 +199,16 @@ val map1 = JavaConversions.mapAsJavaMap(map)
 
 
 
+# 话题
+
+## 并行度 
+
+### 基本概念
+
+spark作业中，各个stage的task的数量，也就代表了spark作业在各个阶段stage的并行度！例如, 50个executor ，每个executor 有3个core ，则 Application 任何一个stage都有总数150个cpu core ，可以并行运行。
+
+### 如何设置
+
+官方推荐，task数量，设置成spark Application 总cpu core数量的2~3倍 ，比如150个cpu core ，基本设置 task数量为 300~ 500.
+
+> RDD计算时，Task数量与分区数对应；Spark Streaming中，Task数量由Block数决定。

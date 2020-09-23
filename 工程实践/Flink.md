@@ -75,6 +75,8 @@ One-to-one 操作 合并
 
 Redistribution 操作 不能合并 （keyBy， broadcase 操作）
 
+
+
 ### 计算流图
 
 flink code -> streaming graph -> job graph -> execution graph
@@ -83,34 +85,106 @@ One-to-one 操作 合并
 
 
 
-### Watermark 
+### 时间
+
+类型
+
+```
+ProcessingTime, //处理时间，分布式环境下无法保证一致性
+IngestionTime,  // 进入Flink时间
+	存在多个 Source Operator 的情况下，每个 Source Operator 可以使用自己本地系统时钟指派 Ingestion Time。后续基于时间相关的各种操作，都会使用数据记录中的 Ingestion Time。
+EventTime;  // 产生时间
+```
+
+设置
+
+```
+env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
+```
+
+
+
+### 窗口
+
+https://ci.apache.org/projects/flink/flink-docs-release-1.11/learn-flink/streaming_analytics.html#windows
+
+#### window 三种分类
+
+1. Keyed-window vs  nokeyed-window
+2. count-based vs time-based
+3. window assigners
+   - tumbling window 
+   - sliding window
+   - session window
+   - global window 因为无解，所以必须指定custom trigger
+
+#### window Function
+
+增量聚合
+
+- ReduceFunction  输入输出格式相同
+- AggregateFunction 输入输出格式可以不一样
+
+全量聚合 
+
+- ProcessWindowFunction 需要保存窗口内所有event，耗内存
+
+  例如，排序场景必须使用全量聚合
+
+
+
+#### Trigger condition
+
+- watermark
+
+  触发窗口操作
+
+  - watermark时间（max_eventTime-t） >= window_end_time
+  - 在[window_start_time,window_end_time)中有数据存在。
+
+- allowedLateness
+
+  再次触发窗口
+
+
 
 #### 产生方式
 
-punctuated watermark
+- punctuated watermark
+- periodic watermark
 
-periodic watermark
+#### 任务间传递
 
-
-
-#### 触发计算的条件
-
-watermark时间（max_eventTime-t） >= window_end_time；
-在[window_start_time,window_end_time)中有数据存在。
+木桶效应，任务当前时间戳 = min（上游传来event的时间戳）
 
 
 
-### Window
+### 背压 Backpressure 
 
-tumbling window 
+原因
 
-sliding window
+1. source 过快，sink过慢(hdfs redis 吞吐量高；local FS 吞吐量低)
+2. watermark 延迟较大，耗内存较多
+3. slidesize 
+4. rocksdb
 
-session window
 
 
 
-### Backpressure
+
+bloom filter
+
+
+
+
+
+
+
+### CEP
+
+complex event processing 模式筛选
+
+![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9SdHZrWTJOSHZpY3FhOFkxdXdHaWNNM3V3MDVWbThlSVZWMjhHVGZodkliNzJYdmM5OUF2SW5maWFKMnNlbEtYWHBxcGtYa0s5eTdhUTI2aWI0RkFDU2N1WFEvNjQwP3d4X2ZtdD1wbmc?x-oss-process=image/format,png)
 
 
 
