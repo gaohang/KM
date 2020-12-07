@@ -1,8 +1,36 @@
+# 产品分析（漏斗分析）
+
+打开app -> 点击搜索 -> 点击 -> 有效播放（i.e.播放时长>60s）
+
+日活
+
+7/30d 留存
+
+# 评估
+
+## 排序指标
+
+online： top1/top3/first page ctr
+
+offline： ndcg/ gauc
+
+## Ner指标
+
+意图准确率
+
+实体准确率
+
+## 联想搜索
+
+点击率
+
+## 纠错指标
+
+ 
+
+
+
 # DSL
-
-
-
-
 
 
 
@@ -111,7 +139,7 @@
 	},
     "_source": [
 		"l_play_user_num",
-    	"m_play_user_num",
+    "m_play_user_num",
 		"s_play_user_num",
 		"like_num"
 	]
@@ -374,7 +402,19 @@ public void initBoolQueryBuilder(SearchParam searchParam,SearchRequestBuilder se
 "text":"最甜情"
 }
 
+# 排序
 
+## 特征
+
+query features 
+
+relevance features 
+
+doc quality
+
+ctr stats
+
+recency features
 
 # gxq
 
