@@ -19,7 +19,7 @@ curl -H "Content-Type: application/json" -XGET '10.192.29.5:11600/_nodes/stats?p
 ### 删除索引
 
 ```
-curl -H "Content-Type: application/json" -XDELETE 10.192.29.5:11600/musicsearch_playlist_v1.1?pretty
+curl -H "Content-Type: application/json" -XDELETE 127.0.0.1:9200/index1?pretty
 curl -H "Content-Type: application/json" -XDELETE 10.192.29.5:11600/musicsearch_fm_v1.1?pretty
 curl -H "Content-Type: application/json" -XDELETE 10.192.29.5:11600/musicsearch_suggest_v1.1?pretty
 ```
@@ -724,6 +724,14 @@ curl -X POST "10.192.12.135:11404/musicsearch_top_song/_delete_by_query?pretty" 
 
 ### 创建文档
 
+```
+curl -H "Content-Type: application/json" -XPUT 'http://10.192.12.135:11404/musics_index' -d '
+{ 
+	"id" : "3", 
+	"name" : "捷克斯洛伐克共和国" 
+}'
+```
+
 
 
 ### 更新文档
@@ -1306,7 +1314,7 @@ javaList中任一一个元素匹配即可。以歌词索引和检所为例说明
 
 ### 短语匹配 match_phrase
 
-介于以上两种方式之间。先对query分词，再用分词查询。默认匹配要求：所有分词必须查到且出现顺序相同。
+精确程度介于以上两种方式之间。先对query分词，再用分词查询。默认匹配要求：所有分词必须查到且出现顺序相同。
 
 1. match_phrase还是分词后去搜的
 2. 目标文档需要包含分词后的所有词
@@ -1660,7 +1668,7 @@ Google搜索框的补全/纠错功能，如果用ES怎么实现呢？我能想�
 
 https://www.zhihu.com/question/26446020
 
-index有N个shard（i.e. 分片），分片有助于index横向扩展。好像一桶水（index的所有docs）分N个杯子（shard）装。每个shard是一个独立的lucence实例，searchRequest在每个shard独立执行。
+Index的数据被放在多个shard上。shard有助于index横向扩展。好像一桶水（index的所有docs）分N个杯子（shard）装。每个shard是一个独立的lucence实例，searchRequest在每个shard独立执行。
 
 replica shard 与 primary shard不会被放在同一个node上。若cluster只有一个node，则不会有replica。
 
